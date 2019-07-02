@@ -21,15 +21,13 @@ class ProjectsController extends Controller
      */
     public function store()
     {
+
         $attributes = request()->validate([
             'title' => 'required',
             'description' => 'required',
-            'owner_id' => 'required',
         ]);
 
-        $attributes['owner_id'] = auth()->id();
-
-        Project::create($attributes);
+        auth()->user()->projects()->create($attributes);
 
         return redirect('/projects');
     }
@@ -41,6 +39,10 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
+        if (auth()->user()->isNot($project->owner)) {
+            die(403);
+        }
+
         return view('projects.show', compact('project'));
     }
 }
