@@ -24,9 +24,39 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function a_user_can_create_projects()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs(factory('App\User')->create());
+
+        $attributes = [
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+        ];
+
+        $this->get('/projects/create')->assertStatus(200);
+
+        $this->post('/projects', $attributes)->assertRedirect('/projects');
+        $this->assertDatabaseHas('projects', $attributes);
+
+        $this->get('/projects')->assertSee($attributes['title']);
+    }
+
+    /**
+     * @test
+     */
     public function guest_cant_see_projects()
     {
         $this->get('/projects')->assertRedirect('login');
+    }
+
+    /**
+     * @test
+     */
+    public function guest_cant_create_project()
+    {
+        $this->get('/projects/create')->assertRedirect('login');
     }
 
     /**
