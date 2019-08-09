@@ -1,22 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-    <div style="display: flex;" class="items-center">
-        <h1 class="mr-auto">Projects</h1>
-        <a href="/projects/create">Create</a>
-    </div>
+    <header class="flex items-center mb-3 py-4">
+        <div class="flex justify-between items-center w-full">
+            <h2 class="text-grey text-sm text-normal no-underline">My Projects</h2>
+            <a class="button" href="/projects/create">Create</a>
+        </div>
+    </header>
 
-    <div style="display: flex;" class="mr-4">
+    <main class="flex flex-wrap -mx-3">
         @forelse($projects as $project)
-            <div class="bg-white">
-                <h3>{{$project->title}}</h3>
+            <div class="w-1/3 px-3 pb-6">
+                <div class="bg-white p-5 rounded-lg shadow" style="height: 200px;">
+                    <h3 class="font-normal text-xl py-4 -ml-5 mb-3 border-l-4 border-light-blue pl-4">
+                       <a class="text-xl text-base no-underline" href="{{$project->path()}}">{{$project->title}}</a>
+                    </h3>
 
-                <div>
-                    {{$project->description}}
+                    <div class="text-grey">
+                        {{\Illuminate\Support\Str::limit($project->description, 300)}}
+                    </div>
                 </div>
             </div>
         @empty
             <div>No projects yet</div>
         @endforelse
-    </div>
+    </main>
 @endsection
