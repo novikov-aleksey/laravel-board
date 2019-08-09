@@ -16,10 +16,9 @@
                 {{--tasks--}}
                 <div class="mb-6">
                     <h2 class="text-grey text-normal text-lg mb-3">Tasks</h2>
-                    <div class="mb-3 card">Task 1</div>
-                    <div class="mb-3 card">Task 2</div>
-                    <div class="mb-3 card">Task 3</div>
-                    <div class="card">Task 4</div>
+                    @foreach($project->tasks as $task)
+                        <div class="mb-3 card">{{$task->body}}</div>
+                    @endforeach
                 </div>
 
                 {{-- general notes --}}
