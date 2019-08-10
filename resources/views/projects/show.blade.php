@@ -16,9 +16,27 @@
                 {{--tasks--}}
                 <div class="mb-6">
                     <h2 class="text-grey text-normal text-lg mb-3">Tasks</h2>
+
                     @foreach($project->tasks as $task)
-                        <div class="mb-3 card">{{$task->body}}</div>
+                        <div class="mb-3 card">
+                            <form method="POST" action="{{$project->tasksPath() . '/' . $task->id}}">
+                                @method('PATCH')
+                                @csrf
+
+                                <div class="flex align-content-center">
+                                    <input class="w-full" name="body" value="{{$task->body}}"/>
+                                    <input {{$task->completed ? 'checked': ''}} checked="checked" name="completed" type="checkbox" onChange="this.form.submit()"/>
+                                </div>
+                            </form>
+                        </div>
                     @endforeach
+
+                    <div class="mb-3 card">
+                        <form action="{{$project->tasksPath()}}" method="POST">
+                            @csrf
+                            <input class="w-full" placeholder="Add a task ..." name="body">
+                        </form>
+                    </div>
                 </div>
 
                 {{-- general notes --}}

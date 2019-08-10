@@ -44,4 +44,18 @@ class ProjectTest extends TestCase
         $this->assertCount(1, $project->tasks);
         $this->assertTrue($project->tasks->contains($task));
     }
+
+    /**
+     * @test
+     */
+    public function can_return_tasks_path()
+    {
+        $project = factory(Project::class)->create();
+        $this->assertTrue(method_exists($project, 'tasksPath'));
+
+        $checkingString = $project->path() . '/tasks';
+
+        $this->assertEquals($project->tasksPath(), $checkingString);
+
+    }
 }
